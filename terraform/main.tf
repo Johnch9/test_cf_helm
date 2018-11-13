@@ -1,15 +1,15 @@
 # Setup Helm provider
 provider "helm" {
   kubernetes {
-        # host     = "${azurerm_kubernetes_cluster.k8s.kube_config.0.host}"
+    host     = "${azurerm_kubernetes_cluster.k8s.kube_config.0.host}"
         # username = "${azurerm_kubernetes_cluster.k8s.kube_config.0.username}"
         # password = "${azurerm_kubernetes_cluster.k8s.kube_config.0.password}"
 
-        # client_certificate     = "${azurerm_kubernetes_cluster.k8s.kube_config.0.client_certificate}"
-        # client_key             = "${azurerm_kubernetes_cluster.k8s.kube_config.0.client_key}"
-        # cluster_ca_certificate = "${azurerm_kubernetes_cluster.k8s.kube_config.0.cluster_ca_certificate}"
+    client_certificate     = "${azurerm_kubernetes_cluster.k8s.kube_config.0.client_certificate}"
+    client_key             = "${azurerm_kubernetes_cluster.k8s.kube_config.0.client_key}"
+    cluster_ca_certificate = "${azurerm_kubernetes_cluster.k8s.kube_config.0.cluster_ca_certificate}"
 #    config_path = "${azurerm_kubernetes_cluster.k8s.kube_config_raw}"
-    config_path = "~/.kube/config"
+#    config_path = "./.kube/config"
   }
 }
 

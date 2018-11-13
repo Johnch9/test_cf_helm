@@ -1,36 +1,10 @@
 version: '1.0'
 steps:
 
-  check_env:
-    title: Check environment for required variables
-    image: bash:4.4.23
-    commands:
-      - echo 'Checking for CLUSTER_NAME, AZ_CLIENT_ID, and AZ_CLIENT_SECRET...'
-      - bash -c '[[ -z $CLUSTER_NAME || -z $AZ_CLIENT_ID || -z $AZ_CLIENT_SECRET ]] && exit 1 || true'
-      - cf_export K8S_NAME="aks-$CLUSTER_NAME"
-
-  load_tfstate:
-    title: Attempt to load Terraform statefile from Codefresh context
-    image: codefresh/cli:0.8.54
-    commands:
-      - apk add --update make bash
-      - chmod +x ./scripts/codefresh-load-tfstate.sh
-      - make codefresh-load-tfstate || echo "Skipping."
-
-  setup_aks_cluster:
+  install_helm_chart:
     title: Setup AKS cluster using Terraform
     image: hashicorp/terraform:latest
     commands:
       - apk add --update make bash
       - chmod +x ./scripts/setup.sh
       - set +e; make setup; cf_export RC=$?
-
-  save_tfstate:
-    title: Save Terraform statefile to Codefresh context
-    image: codefresh/cli:0.8.54
-    commands:
-      - apk add --update make bash
-      - chmod +x ./scripts/codefresh-save-tfstate.sh
-      - make codefresh-save-tfstate
-      - exit ${{RC}}
-

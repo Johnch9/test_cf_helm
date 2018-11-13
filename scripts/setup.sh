@@ -1,5 +1,10 @@
 #!/bin/bash -e
 
+CLIENT_ID="${AZ_CLIENT_ID:-}"
+CLIENT_SECRET="${AZ_CLIENT_SECRET:-}"
+SUBSCRIPTION_ID="${AZ_SUBSCRIPTION_ID:-}"
+TENANT_ID="${AZ_TENANT_ID:-}"
+
 CLIENT_CERTIFICATE="${AZ_CLIENT_CERTIFICATE:-}"
 CLIENT_KEY="${AZ_CLIENT_KEY:-}"
 TOKEN="${AZ_TOKEN:-}"
@@ -22,10 +27,14 @@ N=0
 SUCCESS="false"
 until [ $N -ge 3 ]; do
   terraform apply -auto-approve \
-    -var "client_certificate=${CLIENT_CERTIFICATE}" \
-    -var "client_key=${CLIENT_KEY}" \
+    -var "client_id=${CLIENT_ID}" \
+    -var "client_secret=${CLIENT_SECRET}" \
+    -var "subscription_id=${SUBSCRIPTION_ID}" \
+    -var "tenant_id=${TENANT_ID}" \
+    -var "client_certificate_data=${CLIENT_CERTIFICATE}" \
+    -var "client_key_data=${CLIENT_KEY}" \
     -var "token=${TOKEN}" \
-    -var "cluster_ca_certificate=${CLUSTER_CA_CERTIFICATE}" \
+    -var "certificate_authority_data=${CLUSTER_CA_CERTIFICATE}" \
     .
   if [[ "$?" == "0" ]]; then
     SUCCESS="true"
